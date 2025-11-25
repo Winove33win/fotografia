@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Sparkles, Feather, Compass } from 'lucide-react';
 import { Button, SectionTitle, Input, Textarea } from '../components/Common';
 import { PhotoGrid } from '../components/Gallery';
 import { dataService } from '../services/store';
@@ -46,9 +47,10 @@ export const Home: React.FC = () => {
             className="w-full h-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/70 to-neutral-900"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_28%),radial-gradient(circle_at_80%_0%,rgba(255,255,255,0.06),transparent_24%)] opacity-30 mix-blend-soft-light" />
         </div>
 
-        <div className="relative container mx-auto px-6 py-24 md:py-32">
+        <div className="relative container mx-auto px-6 py-24 md:py-32 min-h-[85vh] flex items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
             <div className="space-y-8">
               <p className="text-sm uppercase tracking-[0.3em] text-stone-300">Fine Art Photography</p>
@@ -59,8 +61,10 @@ export const Home: React.FC = () => {
                 {settings.shortBio}
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button onClick={() => navigate('/portfolio')}>Ver portfólio</Button>
-                <Button variant="outline" onClick={() => navigate('/contact')} className="border-white text-white hover:bg-white hover:text-neutral-900">
+                <Button onClick={() => navigate('/portfolio')} className="relative after:absolute after:inset-0 after:bg-gradient-to-r after:from-white/10 after:via-white/0 after:to-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-500">
+                  Ver portfólio
+                </Button>
+                <Button variant="outline" onClick={() => navigate('/contact')} className="border-white text-white hover:bg-white hover:text-neutral-900 relative after:absolute after:inset-0 after:border after:border-white/30 after:scale-105 after:rounded-sm after:opacity-0 hover:after:opacity-100 after:transition-all">
                   Agendar sessão
                 </Button>
               </div>
@@ -99,14 +103,27 @@ export const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <Link to={`/portfolio/${project.slug}`} key={project.id} className="group">
-                <div className="overflow-hidden aspect-[3/4] rounded-3xl bg-neutral-100">
+                <div className={`relative overflow-hidden aspect-[3/4] rounded-3xl bg-neutral-100 shadow-sm transition duration-700 group-hover:-translate-y-1 ${index === 0 ? 'ring-1 ring-neutral-900/10' : ''}`}>
                   <img
                     src={project.coverImage}
                     alt={project.title}
                     className="w-full h-full object-cover transition duration-700 group-hover:scale-105 group-hover:grayscale-0 grayscale"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-neutral-900/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-700" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 opacity-0 group-hover:opacity-100 transition duration-500">
+                    <div className="flex items-center justify-between text-white">
+                      <div>
+                        <p className="text-sm uppercase tracking-[0.25em] text-white/70">{project.category}</p>
+                        <h3 className="font-serif text-2xl mt-2">{project.title}</h3>
+                      </div>
+                      <span className="text-sm">Ver série →</span>
+                    </div>
+                  </div>
+                  {index === 0 && (
+                    <span className="absolute left-4 top-4 bg-white/80 text-neutral-900 text-[10px] uppercase tracking-[0.3em] px-3 py-2 rounded-full backdrop-blur-sm">Destaque</span>
+                  )}
                 </div>
                 <div className="flex items-center justify-between mt-4">
                   <div>
@@ -139,7 +156,7 @@ export const Home: React.FC = () => {
               <Link
                 key={cat.id}
                 to={`/portfolio?category=${cat.slug}`}
-                className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white px-4 py-6 shadow-sm"
+                className="group relative overflow-hidden rounded-3xl border border-neutral-200 bg-white/90 px-6 py-8 shadow-sm transition duration-500 hover:-translate-y-1 hover:shadow-xl animate-soft-fade"
               >
                 <div className="flex items-center justify-between">
                   <span className="font-serif text-xl text-neutral-900">{cat.name}</span>
@@ -168,9 +185,12 @@ export const Home: React.FC = () => {
           </div>
 
           <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[{ title: 'Briefing sensível', desc: 'Escuta ativa para entender o que torna sua história única.' }, { title: 'Direção sutil', desc: 'Condução natural para gestos autênticos e elegantes.' }, { title: 'Edição artesanal', desc: 'Paleta coesa, contraste suave e nitidez precisa.' }].map((item) => (
-              <div key={item.title} className="p-6 border border-white/10 bg-white/5 backdrop-blur-sm rounded-2xl">
-                <h3 className="font-serif text-xl mb-3">{item.title}</h3>
+            {[{ title: 'Briefing sensível', desc: 'Escuta ativa para entender o que torna sua história única.', icon: Feather }, { title: 'Direção sutil', desc: 'Condução natural para gestos autênticos e elegantes.', icon: Compass }, { title: 'Edição artesanal', desc: 'Paleta coesa, contraste suave e nitidez precisa.', icon: Sparkles }].map((item) => (
+              <div key={item.title} className="p-6 border border-white/10 bg-white/5 backdrop-blur-sm rounded-2xl transition duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white/10">
+                <div className="flex items-center gap-3 mb-3 text-white/80">
+                  <item.icon size={20} />
+                  <h3 className="font-serif text-xl">{item.title}</h3>
+                </div>
                 <p className="text-sm text-stone-200 leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -181,11 +201,15 @@ export const Home: React.FC = () => {
       {/* CTA */}
       <section className="py-24 text-center bg-white">
         <div className="container mx-auto px-6">
-          <h2 className="font-serif text-4xl md:text-5xl text-neutral-900">Vamos criar algo que resista ao tempo.</h2>
-          <p className="text-neutral-500 max-w-2xl mx-auto mt-4 leading-relaxed">
-            Ensaio editorial, casamento intimista ou retrato de marca. Cada projeto recebe direção exclusiva e entrega refinada.
-          </p>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="max-w-3xl mx-auto space-y-6">
+            <div className="w-24 h-px bg-neutral-200 mx-auto" />
+            <h2 className="font-serif text-4xl md:text-5xl text-neutral-900">Vamos criar algo que resista ao tempo.</h2>
+            <p className="text-neutral-500 max-w-2xl mx-auto mt-4 leading-relaxed">
+              Ensaio editorial, casamento intimista ou retrato de marca. Cada projeto recebe direção exclusiva e entrega refinada.
+            </p>
+            <div className="w-24 h-px bg-neutral-200 mx-auto" />
+          </div>
+          <div className="mt-10 flex justify-center gap-4">
             <Button onClick={() => navigate('/portfolio')}>Ver projetos</Button>
             <Button variant="outline" onClick={() => navigate('/contact')}>Solicitar proposta</Button>
           </div>

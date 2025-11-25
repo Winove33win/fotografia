@@ -81,8 +81,9 @@ export const Layout: React.FC = () => {
             <div className="text-center md:text-left">
               <Logo className="mb-4 block" />
               <p className="text-neutral-500 text-sm max-w-xs">{settings.shortBio}</p>
+              <p className="mt-4 text-neutral-400 text-xs uppercase tracking-[0.25em]">Atende: Brasil / Worldwide</p>
             </div>
-            
+
             <div className="flex flex-col items-center md:items-start gap-4">
               <h4 className="text-xs uppercase tracking-widest font-semibold text-neutral-900">Contact</h4>
               <a href={`mailto:${settings.email}`} className="text-neutral-600 hover:text-stone-500 text-sm flex items-center gap-2">
@@ -104,10 +105,14 @@ export const Layout: React.FC = () => {
                </div>
             </div>
           </div>
-          
-          <div className="mt-16 pt-8 border-t border-neutral-200 text-center flex flex-col md:flex-row justify-between items-center text-xs text-neutral-400">
-             <p>&copy; {new Date().getFullYear()} {settings.photographerName}. All rights reserved.</p>
-             <div className="mt-4 md:mt-0 space-x-4">
+
+          <div className="mt-16 pt-8 border-t border-neutral-200 text-center flex flex-col md:flex-row justify-between items-center text-xs text-neutral-400 gap-4">
+             <div className="flex flex-col md:flex-row items-center gap-2 text-neutral-500">
+               <span className="font-serif italic text-lg text-neutral-700">{settings.photographerName}</span>
+               <span className="hidden md:inline">—</span>
+               <p>&copy; {new Date().getFullYear()} {settings.photographerName}. All rights reserved.</p>
+             </div>
+             <div className="mt-2 md:mt-0 space-x-4">
                 <NavLink to="/admin" className="hover:text-neutral-600">Admin</NavLink>
              </div>
           </div>

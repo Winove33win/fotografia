@@ -29,6 +29,8 @@
             animation: {
               'fade-in': 'fadeIn 0.8s ease-out forwards',
               'slide-up': 'slideUp 0.8s ease-out forwards',
+              'float-up': 'floatUp 1s ease-out forwards',
+              'soft-fade': 'softFade 1s ease-out forwards',
             },
             keyframes: {
               fadeIn: {
@@ -37,6 +39,14 @@
               },
               slideUp: {
                 '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              floatUp: {
+                '0%': { opacity: '0', transform: 'translateY(18px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              softFade: {
+                '0%': { opacity: '0.2', transform: 'translateY(10px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
               },
             }
