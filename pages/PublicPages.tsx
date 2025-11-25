@@ -31,52 +31,90 @@ export const Home: React.FC = () => {
 
   return (
     <>
-      <SEO 
-        title="Home" 
+      <SEO
+        title="Home"
         description={settings.shortBio}
         schema={schema}
       />
+
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex flex-col justify-center px-6 md:px-20 animate-fade-in">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1 space-y-8">
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-tight text-neutral-900">
-              Capturing <br/> <span className="italic text-stone-500">Silence</span> & Light
-            </h1>
-            <p className="text-neutral-500 max-w-md leading-relaxed text-lg">
-              {settings.shortBio}
-            </p>
-            <div className="flex gap-4 pt-4">
-              <Button onClick={() => navigate('/portfolio')}>View Portfolio</Button>
-              <Button variant="outline" onClick={() => navigate('/contact')}>Contact Me</Button>
+      <section className="relative overflow-hidden bg-neutral-900 text-white">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1400&q=80"
+            alt="Fine art portrait"
+            className="w-full h-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/70 to-neutral-900"></div>
+        </div>
+
+        <div className="relative container mx-auto px-6 py-24 md:py-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
+            <div className="space-y-8">
+              <p className="text-sm uppercase tracking-[0.3em] text-stone-300">Fine Art Photography</p>
+              <h1 className="font-serif text-5xl md:text-7xl leading-[1.05]">
+                Quiet stories crafted in light, for the moments that matter.
+              </h1>
+              <p className="text-lg text-stone-200 max-w-xl leading-relaxed">
+                {settings.shortBio}
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={() => navigate('/portfolio')}>Ver portfólio</Button>
+                <Button variant="outline" onClick={() => navigate('/contact')} className="border-white text-white hover:bg-white hover:text-neutral-900">
+                  Agendar sessão
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6 pt-6">
+                {[{ label: 'Ensaios entregues', value: '320+' }, { label: 'Anos de experiência', value: '12' }].map((stat) => (
+                  <div key={stat.label} className="border border-white/10 p-6 bg-white/5 backdrop-blur-sm">
+                    <p className="text-3xl font-serif">{stat.value}</p>
+                    <p className="text-sm uppercase tracking-[0.2em] text-stone-300 mt-2">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="order-1 md:order-2 relative h-[50vh] md:h-[70vh] overflow-hidden">
-             <img 
-               src="https://picsum.photos/id/42/1000/1500" 
-               alt="Hero" 
-               className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-1000 ease-out"
-             />
+
+            <div className="relative">
+              <div className="absolute -top-10 -left-6 w-20 h-20 border border-white/10"></div>
+              <div className="absolute -bottom-10 -right-6 w-28 h-28 border border-white/10"></div>
+              <div className="overflow-hidden rounded-[32px] shadow-2xl shadow-black/30 border border-white/10">
+                <img
+                  src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80"
+                  alt="Editorial photography"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Works */}
-      <section className="py-24 bg-neutral-50">
+      {/* Signature series */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <SectionTitle title="Selected Works" subtitle="Recent Projects" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex items-center gap-6 mb-12">
+            <div className="h-px w-16 bg-neutral-200" />
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">Coleções autorais</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {projects.map((project) => (
-              <Link to={`/portfolio/${project.slug}`} key={project.id} className="group block">
-                <div className="overflow-hidden aspect-[3/4] mb-4">
-                  <img 
-                    src={project.coverImage} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              <Link to={`/portfolio/${project.slug}`} key={project.id} className="group">
+                <div className="overflow-hidden aspect-[3/4] rounded-3xl bg-neutral-100">
+                  <img
+                    src={project.coverImage}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition duration-700 group-hover:scale-105 group-hover:grayscale-0 grayscale"
                   />
                 </div>
-                <h3 className="font-serif text-2xl text-neutral-900 group-hover:text-stone-500 transition-colors">{project.title}</h3>
-                <p className="text-xs uppercase tracking-widest text-neutral-400 mt-1">{project.category}</p>
+                <div className="flex items-center justify-between mt-4">
+                  <div>
+                    <h3 className="font-serif text-2xl text-neutral-900">{project.title}</h3>
+                    <p className="text-xs uppercase tracking-[0.25em] text-neutral-400 mt-2">{project.category}</p>
+                  </div>
+                  <span className="text-sm text-stone-500 group-hover:text-neutral-900 transition">Ver série →</span>
+                </div>
               </Link>
             ))}
           </div>
@@ -84,30 +122,73 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Categories */}
-      <section className="py-24">
+      <section className="py-20 bg-neutral-50">
         <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">Especialidades</p>
+              <h2 className="font-serif text-4xl text-neutral-900 mt-2">Narrativas sob medida</h2>
+            </div>
+            <Button variant="outline" onClick={() => navigate('/portfolio')}>
+              Ver tudo
+            </Button>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((cat) => (
-              <Link 
-                key={cat.id} 
+              <Link
+                key={cat.id}
                 to={`/portfolio?category=${cat.slug}`}
-                className="aspect-square flex flex-col items-center justify-center border border-neutral-100 hover:border-stone-500 hover:bg-neutral-50 transition-all duration-300 group"
+                className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white px-4 py-6 shadow-sm"
               >
-                <span className="font-serif text-xl md:text-2xl text-neutral-900 group-hover:translate-y-[-5px] transition-transform duration-300">{cat.name}</span>
-                <span className="opacity-0 group-hover:opacity-100 text-xs text-stone-500 uppercase tracking-widest mt-2 transition-opacity duration-300">View Gallery</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-serif text-xl text-neutral-900">{cat.name}</span>
+                  <span className="text-sm text-neutral-400 group-hover:text-stone-500 transition">→</span>
+                </div>
+                <p className="mt-3 text-sm text-neutral-500 leading-relaxed">Narrativas elegantes para {cat.name.toLowerCase()}.</p>
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-neutral-900 to-stone-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
               </Link>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Experience */}
+      <section className="py-20 bg-neutral-900 text-white">
+        <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
+          <div className="md:col-span-2 space-y-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-stone-300">A experiência</p>
+            <h2 className="font-serif text-4xl leading-tight">Curadoria completa, do primeiro contato à entrega final.</h2>
+            <p className="text-stone-200 leading-relaxed">
+              Processos claros, direção delicada e pós-produção atenta aos detalhes para entregar imagens atemporais.
+            </p>
+            <Button onClick={() => navigate('/contact')} variant="outline" className="border-white text-white hover:bg-white hover:text-neutral-900">
+              Fale comigo
+            </Button>
+          </div>
+
+          <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[{ title: 'Briefing sensível', desc: 'Escuta ativa para entender o que torna sua história única.' }, { title: 'Direção sutil', desc: 'Condução natural para gestos autênticos e elegantes.' }, { title: 'Edição artesanal', desc: 'Paleta coesa, contraste suave e nitidez precisa.' }].map((item) => (
+              <div key={item.title} className="p-6 border border-white/10 bg-white/5 backdrop-blur-sm rounded-2xl">
+                <h3 className="font-serif text-xl mb-3">{item.title}</h3>
+                <p className="text-sm text-stone-200 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-32 text-center bg-stone-800 text-white">
+      <section className="py-24 text-center bg-white">
         <div className="container mx-auto px-6">
-          <h2 className="font-serif text-4xl md:text-6xl mb-8">Let's Create Something Timeless</h2>
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-stone-900" onClick={() => navigate('/contact')}>
-            Book a Session
-          </Button>
+          <h2 className="font-serif text-4xl md:text-5xl text-neutral-900">Vamos criar algo que resista ao tempo.</h2>
+          <p className="text-neutral-500 max-w-2xl mx-auto mt-4 leading-relaxed">
+            Ensaio editorial, casamento intimista ou retrato de marca. Cada projeto recebe direção exclusiva e entrega refinada.
+          </p>
+          <div className="mt-8 flex justify-center gap-4">
+            <Button onClick={() => navigate('/portfolio')}>Ver projetos</Button>
+            <Button variant="outline" onClick={() => navigate('/contact')}>Solicitar proposta</Button>
+          </div>
         </div>
       </section>
     </>
