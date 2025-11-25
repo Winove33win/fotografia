@@ -3,6 +3,9 @@ export interface ImageItem {
   url: string;
   title?: string;
   aspectRatio?: 'square' | 'portrait' | 'landscape';
+  projectSlug?: string;
+  projectTitle?: string;
+  category?: string;
 }
 
 export interface Project {

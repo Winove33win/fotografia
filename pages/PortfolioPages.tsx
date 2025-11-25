@@ -15,7 +15,12 @@ export const PortfolioIndex: React.FC = () => {
   // Flatten all images for "All" view or filter by category
   // The PhotoGrid renders images.
   
-  const allImages = projects.flatMap(p => p.images.map(img => ({ ...img, projectSlug: p.slug, category: p.category })));
+  const allImages = projects.flatMap(p => p.images.map(img => ({
+    ...img,
+    projectSlug: p.slug,
+    projectTitle: p.title,
+    category: p.category
+  })));
   
   const filteredImages = currentCategory === 'all' 
     ? allImages 
@@ -25,9 +30,9 @@ export const PortfolioIndex: React.FC = () => {
   const [lightboxIndex, setLightboxIndex] = useState(-1);
 
   return (
-    <div className="container mx-auto px-6 py-12 animate-fade-in">
-      <SEO 
-        title="Portfolio" 
+    <div className="container mx-auto px-6 md:px-10 lg:px-12 py-14 lg:py-20 animate-fade-in">
+      <SEO
+        title="Portfolio"
         description="Browse our selected photography portfolio featuring weddings, editorials, and portraits."
         schema={{
           "@context": "https://schema.org",
@@ -45,26 +50,33 @@ export const PortfolioIndex: React.FC = () => {
           }
         }}
       />
-      <div className="flex flex-col items-center mb-16 space-y-8">
-        <h1 className="font-serif text-4xl text-neutral-900">Portfolio</h1>
-        
+      <div className="flex flex-col items-center mb-14 lg:mb-20 space-y-7">
+        <h1 className="font-serif text-4xl md:text-5xl text-neutral-900 tracking-tight">Portfolio</h1>
+        <p className="text-neutral-600 text-center max-w-3xl leading-relaxed font-light">
+          Coleções selecionadas com atmosfera editorial e tons suaves, reunidas em um grid preciso e harmonioso.
+        </p>
+
         {/* Filter */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-          <button 
-            onClick={() => setSearchParams({})}
-            className={`text-xs uppercase tracking-widest pb-1 border-b-2 transition-colors ${currentCategory === 'all' ? 'border-neutral-900 text-neutral-900' : 'border-transparent text-neutral-400 hover:text-neutral-600'}`}
-          >
-            All
-          </button>
-          {categories.map(cat => (
-             <button 
-             key={cat.id}
-             onClick={() => setSearchParams({ category: cat.slug })}
-             className={`text-xs uppercase tracking-widest pb-1 border-b-2 transition-colors ${currentCategory === 'all' && cat.slug === currentCategory ? 'border-neutral-900 text-neutral-900' : currentCategory === cat.slug ? 'border-neutral-900 text-neutral-900' : 'border-transparent text-neutral-400 hover:text-neutral-600'}`}
-           >
-             {cat.name}
-           </button>
-          ))}
+        <div className="w-full max-w-5xl border-b border-neutral-200 pb-4">
+          <div className="flex flex-wrap justify-center gap-6 md:gap-10 text-sm md:text-base">
+            <button
+              onClick={() => setSearchParams({})}
+              className={`relative pb-3 uppercase tracking-[0.2em] font-serif transition-all duration-300 ${currentCategory === 'all' ? 'text-neutral-900' : 'text-neutral-400 hover:text-neutral-700'}`}
+            >
+              <span className="pr-1">All</span>
+              <span className={`absolute left-0 -bottom-[3px] h-[1px] bg-neutral-900 transition-transform origin-left duration-300 ${currentCategory === 'all' ? 'scale-x-100' : 'scale-x-0'}`} />
+            </button>
+            {categories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setSearchParams({ category: cat.slug })}
+                className={`relative pb-3 uppercase tracking-[0.2em] font-serif transition-all duration-300 ${currentCategory === cat.slug ? 'text-neutral-900' : 'text-neutral-400 hover:text-neutral-700'}`}
+              >
+                <span className="pr-1">{cat.name}</span>
+                <span className={`absolute left-0 -bottom-[3px] h-[1px] bg-neutral-900 transition-transform origin-left duration-300 ${currentCategory === cat.slug ? 'scale-x-100' : 'scale-x-0'}`} />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

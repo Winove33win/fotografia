@@ -14,34 +14,44 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ images, onImageClick, aspe
     
     switch (img.aspectRatio) {
       case 'portrait':
-        // Spans 2 rows vertically. Using 2:3 ratio which is standard for photography.
-        return 'md:row-span-2 aspect-[2/3]';
+        return 'aspect-[3/4]';
       case 'landscape':
-        // Spans 2 columns horizontally. Using 3:2 ratio.
-        return 'md:col-span-2 aspect-[3/2]';
+        return 'aspect-[16/9]';
       case 'square':
       default:
-        // Standard square 1x1
-        return 'aspect-square';
+        return 'aspect-[1/1]';
     }
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 grid-flow-dense">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
       {images.map((img, idx) => (
-        <div 
-          key={img.id} 
-          className={`relative group overflow-hidden bg-neutral-100 cursor-pointer ${getItemClasses(img)}`}
+        <div
+          key={img.id}
+          className={`relative group overflow-hidden bg-neutral-100 cursor-pointer rounded-xl opacity-0 animate-soft-fade ${getItemClasses(img)}`}
           onClick={() => onImageClick(idx)}
+          style={{ animationDelay: `${idx * 0.1}s` }}
         >
-          <img 
-            src={img.url} 
-            alt={img.title || `Portfolio item ${idx}`} 
+          <img
+            src={img.url}
+            alt={img.title || `Portfolio item ${idx}`}
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
           />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+          {(img.title || img.projectTitle) && (
+            <div className="absolute inset-0 flex items-end">
+              <div className="w-full p-6 md:p-7 lg:p-8">
+                <div className="flex flex-col text-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <span className="font-serif text-lg tracking-[0.06em] drop-shadow-sm">{img.title || img.projectTitle}</span>
+                  {img.category && (
+                    <span className="text-xs uppercase tracking-[0.28em] text-white/70">{img.category}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       ))}
     </div>
